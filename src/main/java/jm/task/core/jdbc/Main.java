@@ -14,11 +14,11 @@ public class Main {
         us.saveUser("Roberto", "Carlos", (byte) 49);
         us.saveUser("Edgar", "Davids", (byte) 49);
         us.saveUser("Wesley", "Sneijder", (byte) 37);
-
         us.removeUserById(2);
         us.getAllUsers();
         us.cleanUsersTable();
         us.dropUsersTable();
-        Util.closeConnection();
+
+        Util.closeSessionFactory();
     }
 }
