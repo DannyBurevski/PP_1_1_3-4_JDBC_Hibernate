@@ -17,6 +17,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     public UserDaoHibernateImpl() {}
 
+    @Override
     public void createUsersTable() {
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -34,7 +35,7 @@ public class UserDaoHibernateImpl implements UserDao {
             transaction.rollback();
         }
     }
-
+    @Override
     public void dropUsersTable() {
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -49,7 +50,7 @@ public class UserDaoHibernateImpl implements UserDao {
             transaction.rollback();
         }
     }
-
+    @Override
     public void saveUser(String name, String lastName, byte age) {
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -61,7 +62,7 @@ public class UserDaoHibernateImpl implements UserDao {
             transaction.rollback();
         }
     }
-
+    @Override
     public void removeUserById(long id) {
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -73,7 +74,7 @@ public class UserDaoHibernateImpl implements UserDao {
             transaction.rollback();
         }
     }
-
+    @Override
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
 
@@ -86,11 +87,15 @@ public class UserDaoHibernateImpl implements UserDao {
         return users;
     }
 
+    @Override
     public void cleanUsersTable() {
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            String query = "delete from " + User.class.getName();
-            session.createQuery (query).executeUpdate();
+            String sql = "TRUNCATE TABLE users";
+
+            Query query = session.createSQLQuery(sql);
+            query.executeUpdate();
+
             transaction.commit();
         } catch (HibernateException e) {
             e.printStackTrace();
